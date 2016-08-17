@@ -13,7 +13,7 @@ The methods developed consists of:
 
 ************************************
 ## Installation
-svcompare compare tool can be in installed at the root system level or at the user local.
+svcompare tool can be in installed at the root system level or at the user local.
 
 1. clone the repository
 2. gunzip svcompare.zip
