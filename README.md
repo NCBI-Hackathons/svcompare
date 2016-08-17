@@ -7,10 +7,17 @@ Comparison and estimation of breakpoints for SVs accross different technologies 
 This github represents a collection of the methods that our group developed to analyze, annotate and more accurately predict breakpoints for SVs on the hackathon (08/15-08/17 @ NIH).
 
 The methods developed consists of:
-SURVIVOR_ant: a comparison and annotate method for a given vcf file.
+-- SURVIVOR_ant: a comparison and annotate method for a given vcf file.
+-- statistics.pl: provides statics of callsets in which an event is supported.
+-- run_all: wrapper for statistics.pl
 
-TODO!!
+************************************
+## Installation
+svcompare compare tool can be in installed at the root system level or at the user local.
 
+1. clone the repository
+2. gunzip svcompare.zip
+3. place svcompare folder in a desired location
 
 ************************************
 ## Repo content
