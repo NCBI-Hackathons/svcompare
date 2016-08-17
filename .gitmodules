@@ -1,0 +1,3 @@
+[submodule "SURVIVOR_ant"]
+	path = SURVIVOR_ant
+	url = https://github.com/fritzsedlazeck/SURVIVOR_ant.git
