@@ -1,0 +1,47 @@
+{
+	"hg002.te_insertions.recover_filt_mod.vcf" => {
+		"caller_count" => 109,
+		
+		"DUP00125674SUR" => {
+			"caller" => hg002.te_insertions.recover_filt_mod.vcf, 
+			"id" => "DUP00125674SUR", 
+			"start" => 10163187, 
+			"stop" => 10163191,
+			
+			"events" => {
+				GT => "./.",
+				LN => 4,
+				DV => -1,
+				types => [DUP,INS,...DEL]
+				coords => {
+					DUP => [
+						{
+							"chr" => 21, 
+							"start" => 9495852, 
+							"stop" => 9495856
+						},
+						{
+							"chr" => 21, 
+							"start" => 9495852, 
+							"stop" => 9495856
+						}
+					],
+					INS => [
+						{
+							"chr" => 21, 
+							"start" => 9495852, 
+							"stop" => 9495856
+						},
+						{
+							"chr" => 21, 
+							"start" => 9495852, 
+							"stop" => 9495856
+						}
+					]
+				}
+			} 
+		},
+		........
+	},
+	........
+}
