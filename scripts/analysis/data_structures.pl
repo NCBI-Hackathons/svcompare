@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#  #!/usr/bin/env perl
 use strict;
 use warnings;
 use File::Temp;
@@ -597,4 +597,6 @@ sub usage {
 	exit_with_msg "usage: perl stat.pl < vcf file> <caller-technology map file>\n";
 	exit;
 }
-exit;
+#exit;
+
+1;
