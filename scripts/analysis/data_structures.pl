@@ -1,4 +1,4 @@
-#  #!/usr/bin/env perl
+#!/usr/bin/env perl
 use strict;
 use warnings;
 use File::Temp;
@@ -7,7 +7,8 @@ use List::Util qw(max min);
 use Scalar::Util qw(looks_like_number);
 
 ##########################################################################################
-# notes: filter column contains <NA> values - ignore 
+# notes: Rows containing <NA> values for the event types are ignored.
+# Valid events are INS,DEL,DUP...etc
 ##########################################################################################
 
 ##########################################################################################
@@ -30,9 +31,10 @@ sub generate_data_by_caller {
 	my $headers_href; my $first_vcf_file_name;
 	my $data = load_data($datafile);
 	foreach my $line (@$data) {
-		next unless($line =~ /#chrom/i || $line =~ /^\d/); #assumes chromosomes are numbers
+		next unless($line =~ /#chrom/i || $line =~ /^\d/ || $line =~ /^X/i || $line =~ /^Y/i);
 		
-		if($line =~ /^\d/) {
+		# only allow events with real chromosomes
+		if($line =~ /^\d/ || $line =~ /^X/i || $line =~ /^Y/i) {
 			insert_events_in_data($line,$headers_href, \%data,$first_vcf_file_name);
 		} else {
 			($headers_href, $first_vcf_file_name) = get_headers($line) ;		
@@ -99,7 +101,9 @@ sub show_data_by_caller {
 		#####################
 		# show records (events) as an example only for one caller
 		#####################
+
 		if($caller eq "hg002.te_insertions.recover_filt_mod.vcf") {
+		# if($caller eq lc("PBHoney_15.8.24_HG002.tails_20.vcf")) {
 			while(my ($record_id,$regions) = each(%$records)) {
 			
 				#show number of regions a caller has detected an event 
@@ -149,9 +153,9 @@ sub generate_data_by_event {
 	my $headers_href; my $first_vcf_file_name;
 	my $data = load_data($datafile);
 	foreach my $line (@$data) {
-		next unless($line =~ /#chrom/i || $line =~ /^\d/); #assumes chromosomes are numbers
+		next unless($line =~ /#chrom/i || $line =~ /^\d/ || $line =~ /^X/i || $line =~ /^Y/i);
 		
-		if($line =~ /^\d/) {
+		if($line =~ /^\d/ || $line =~ /^X/i || $line =~ /^Y/i) {
 			my $record_href = get_record($line,$headers_href,$first_vcf_file_name);
 			$data{$record_href->{"id"}} = $record_href if($record_href->{"caller_count"} > 0);
 		} else {
@@ -597,6 +601,4 @@ sub usage {
 	exit_with_msg "usage: perl stat.pl < vcf file> <caller-technology map file>\n";
 	exit;
 }
-#exit;
-
-1;
+exit;
