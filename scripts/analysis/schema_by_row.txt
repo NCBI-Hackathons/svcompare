@@ -4,6 +4,13 @@
 		"caller_count" => 109,
 		"start" => 10163187, 
 		"stop" => 10163191,
+		
+		"annotations" => {
+			"overlapped_VCF" => 0,
+			"total_Annotations" => 19,
+			"overlapped_Annotations" => "overlapped_Annotations" => [selfchaingt10kwithalts,gemmap_l100_m2_e1,gemmap_l100_m2_e1...decoy]
+		},
+		
 		"callers" => {
 			"hg002.te_insertions.recover_filt_mod.vcf" => {
 				"caller_id" => "hg002.te_insertions.recover_filt_mod.vcf",

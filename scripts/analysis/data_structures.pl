@@ -68,7 +68,8 @@ sub insert_events_in_data {
 	$hash{"start"} = $start;
 	$hash{"stop"} = $stop;	
 
-
+	my $annotations_href = get_annotations($hash{"info"});
+	
 	for(my $i = $pos; $i < scalar(@tokens); $i++) {
 		next if($tokens[$i] =~ /NaN/i);		#ignore invalid calls
 		
@@ -80,7 +81,7 @@ sub insert_events_in_data {
 		my $caller_record = { 
 			$hash{"id"} => {
 				"caller" => $caller, "id" => $hash{"id"}, "start" => $hash{"start"}, 
-				"stop" => $hash{"stop"}, "events" => $events
+				"stop" => $hash{"stop"}, "events" => $events, "annotations" => $annotations_href
 			}
 		};
 		$data_href->{$caller}->{$hash{"id"}} = $caller_record->{$hash{"id"}};
@@ -134,6 +135,15 @@ sub show_data_by_caller {
 						print "\tchr:", $coord->{"chr"}," start:", $coord->{"start"}," stop:", $coord->{"stop"},"\n";
 					}
 				}
+				
+				my $annotations_ref = $regions->{"annotations"};
+				print "annotations:\n";
+				print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n";
+				print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n";
+				print "\toverlapped_Annotations: \n"; 
+				my $overlap_annotations = $annotations_ref->{"overlapped_Annotations"};						
+				print "\t\t$_\n" foreach(@$overlap_annotations);
+
 				print "##########################\n";
 			}
 		}
@@ -202,6 +212,9 @@ sub get_record {
 		$hash{"callers"}->{$caller_id} = $caller_record->{$caller_id};
 	}
 
+	my $annotations_href = get_annotations($hash{"info"});
+	$hash{"annotations"} = $annotations_href;
+	
 	my $stop = get_end_location($hash{"info"});
 	my $start = $hash{"pos"};
 	$hash{"start"} = $start;
@@ -230,7 +243,7 @@ sub show_data_by_event {
 			print "start: ", $event_info->{"start"},"\n";
 			print "stop: ", $event_info->{"stop"},"\n";		
 			print "number of calls: ", $event_info->{"caller_count"},"\n";	
-			
+						
 			my $callers_href = 	$event_info->{"callers"};
 			while(my($caller_id, $regions_href) = each(%$callers_href)) {
 				my $events_href = $regions_href->{"events"};
@@ -243,6 +256,14 @@ sub show_data_by_event {
 					}
 				}
 			}
+			
+			my $annotations_ref = $event_info->{"annotations"};
+			print "annotations:\n";
+			print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n";
+			print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n";
+			print "\toverlapped_Annotations: \n"; 
+			my $overlap_annotations = $annotations_ref->{"overlapped_Annotations"};						
+			print "\t\t$_\n" foreach(@$overlap_annotations);
 		}
 	}
 }
@@ -268,6 +289,31 @@ sub get_headers {
 		} 
 	}
 	return (\%hash, $vcf_name);
+}
+
+sub get_annotations {
+	my $msg = join(" ", "Error in function",(caller(0))[3],"\nCause: not enough arguments, line: ".__LINE__);
+	exit_with_msg($msg) if(@_ < 1);
+	my ($info) = ($_[0]); 
+	
+	my %hash = ();
+	my @tokens = split(/;/,$info);
+	foreach my $token (@tokens) {
+		my ($name,$value) = split(/=/,$token);
+		
+		if($name =~ /overlapped_VCF/i) {
+			$hash{$name} =  $value;
+		}elsif ($name =~ /total_Annotations/i) {
+			$hash{$name} =  $value;
+		}elsif($name =~ /overlapped_Annotations/i) {
+			
+			my @values = split(/,/,$value);
+			foreach my $value (@values) {
+				insert($name,$value,\%hash);
+			}
+		}
+	}
+	return \%hash;
 }
 
 sub get_event_types_with_coord {

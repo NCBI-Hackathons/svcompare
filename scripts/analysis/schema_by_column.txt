@@ -8,6 +8,12 @@
 			"start" => 10163187, 
 			"stop" => 10163191,
 			
+			"annotations" => {
+				"overlapped_VCF" => 0, 
+				"total_Annotations" => 19,
+				"overlapped_Annotations" => [selfchaingt10kwithalts,gemmap_l100_m2_e1,gemmap_l100_m2_e1...decoy]
+			},
+			
 			"events" => {
 				GT => "./.",
 				LN => 4,
