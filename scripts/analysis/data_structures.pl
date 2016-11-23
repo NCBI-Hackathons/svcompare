@@ -17,6 +17,7 @@ use Scalar::Util qw(looks_like_number);
 ##########################################################################################
 
 
+
 ##########################################################################################
 #									Do not change code below							 #
 ##########################################################################################
@@ -105,7 +106,11 @@ sub show_data_by_caller {
 
 		if($caller eq "hg002.te_insertions.recover_filt_mod.vcf") {
 		# if($caller eq lc("PBHoney_15.8.24_HG002.tails_20.vcf")) {
-			while(my ($record_id,$regions) = each(%$records)) {
+			
+			# while(my ($record_id,$regions) = each(%$records)) {
+			my @keys = sort(keys %$records);
+			foreach my $record_id (@keys) {
+				my $regions = $records->{$record_id};
 			
 				#show number of regions a caller has detected an event 
 				unless(ref($regions)) {
@@ -136,14 +141,18 @@ sub show_data_by_caller {
 					}
 				}
 				
-				my $annotations_ref = $regions->{"annotations"};
-				print "annotations:\n";
-				print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n";
-				print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n";
-				print "\toverlapped_Annotations: \n"; 
-				my $overlap_annotations = $annotations_ref->{"overlapped_Annotations"};						
-				print "\t\t$_\n" foreach(@$overlap_annotations);
-
+				if(exists $regions->{"annotations"}) {
+					my $annotations_ref = $regions->{"annotations"};
+					print "Annotations:\n";
+					print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n" if(exists $annotations_ref->{"overlapped_VCF"});
+					print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n" if(exists $annotations_ref->{"total_Annotations"});
+					
+					my $overlap_annotations = [];
+					$overlap_annotations = $annotations_ref->{"overlapped_Annotations"} if(exists $annotations_ref->{"overlapped_Annotations"});						
+					my $overlapped_annotations_count = scalar(@$overlap_annotations);
+					print "\toverlapped_Annotations: $overlapped_annotations_count\n"; 
+					print "\t\t$_\n" foreach(@$overlap_annotations);
+				}
 				print "##########################\n";
 			}
 		}
@@ -256,14 +265,27 @@ sub show_data_by_event {
 					}
 				}
 			}
+
+			if(exists $event_info->{"annotations"}) {
+				my $annotations_ref = $event_info->{"annotations"};
+				print "Annotations:\n";
+				print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n" if(exists $annotations_ref->{"overlapped_VCF"});
+				print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n" if(exists $annotations_ref->{"total_Annotations"});
+				
+				my $overlap_annotations = [];
+				$overlap_annotations = $annotations_ref->{"overlapped_Annotations"} if(exists $annotations_ref->{"overlapped_Annotations"});						
+				my $overlapped_annotations_count = scalar(@$overlap_annotations);
+				print "\toverlapped_Annotations: $overlapped_annotations_count\n"; 
+				print "\t\t$_\n" foreach(@$overlap_annotations);
+			}
 			
-			my $annotations_ref = $event_info->{"annotations"};
-			print "annotations:\n";
-			print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n";
-			print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n";
-			print "\toverlapped_Annotations: \n"; 
-			my $overlap_annotations = $annotations_ref->{"overlapped_Annotations"};						
-			print "\t\t$_\n" foreach(@$overlap_annotations);
+# 			my $annotations_ref = $event_info->{"annotations"};
+# 			print "annotations:\n";
+# 			print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n";
+# 			print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n";
+# 			print "\toverlapped_Annotations: \n"; 
+# 			my $overlap_annotations = $annotations_ref->{"overlapped_Annotations"};						
+# 			print "\t\t$_\n" foreach(@$overlap_annotations);
 		}
 	}
 }
@@ -647,4 +669,4 @@ sub usage {
 	exit_with_msg "usage: perl stat.pl < vcf file> <caller-technology map file>\n";
 	exit;
 }
-exit;
+1;
