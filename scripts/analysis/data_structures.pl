@@ -63,11 +63,20 @@ sub insert_events_in_data {
 	for(my $i = 0; $i < $pos; $i++) {
 		my $k = $headers_href->{$i};
 	 	$hash{$k} = $tokens[$i];
+	 	print "$k: $tokens[$i]\n";
 	}
+	
 	my $stop = get_end_location($hash{"info"});
 	my $start = $hash{"pos"};
 	$hash{"start"} = $start;
 	$hash{"stop"} = $stop;	
+
+	
+	my $info_str = $hash{"info"};
+	my @info_str_tokens = split(/;/,$info_str);
+	my $index = index($info_str_tokens[0],"=");
+	my $supp = substr($info_str_tokens[0],$index+1);
+	$hash{"supp"}=$supp;
 
 	my $annotations_href = get_annotations($hash{"info"});
 	
@@ -203,6 +212,13 @@ sub get_record {
 		my $k = $headers_href->{$i};
 	 	$hash{$k} = $tokens[$i];
 	}
+
+	# SUPP
+	my $info_str = $hash{"info"};
+	my @info_str_tokens = split(/;/,$info_str);
+	my $index = index($info_str_tokens[0],"=");
+	my $supp = substr($info_str_tokens[0],$index+1);
+	$hash{"supp"}=$supp;
 
 	for(my $i = $pos; $i < scalar(@tokens); $i++) {
 		next if($tokens[$i] =~ /NaN/i);		#ignore invalid 

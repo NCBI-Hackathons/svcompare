@@ -8,6 +8,9 @@
 			"start" => 10163187, 
 			"stop" => 10163191,
 			
+			"alt" => <DEL>,
+			"supp" => 1,
+
 			"annotations" => {
 				"overlapped_VCF" => 0, 
 				"total_Annotations" => 19,
