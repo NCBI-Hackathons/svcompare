@@ -62,22 +62,20 @@ sub insert_events_in_data {
 	
 	for(my $i = 0; $i < $pos; $i++) {
 		my $k = $headers_href->{$i};
-	 	$hash{$k} = $tokens[$i];
-	 	print "$k: $tokens[$i]\n";
+	 	$hash{$k} = $tokens[$i]; 	
 	}
-	
+
 	my $stop = get_end_location($hash{"info"});
 	my $start = $hash{"pos"};
 	$hash{"start"} = $start;
 	$hash{"stop"} = $stop;	
-
+	
 	
 	my $info_str = $hash{"info"};
 	my @info_str_tokens = split(/;/,$info_str);
 	my $index = index($info_str_tokens[0],"=");
 	my $supp = substr($info_str_tokens[0],$index+1);
-	$hash{"supp"}=$supp;
-
+	
 	my $annotations_href = get_annotations($hash{"info"});
 	
 	for(my $i = $pos; $i < scalar(@tokens); $i++) {
@@ -87,13 +85,15 @@ sub insert_events_in_data {
 		my $event = $tokens[$i];
 		
 		my $events = get_event_types_with_coord($event);
-		
+				
 		my $caller_record = { 
 			$hash{"id"} => {
 				"caller" => $caller, "id" => $hash{"id"}, "start" => $hash{"start"}, 
-				"stop" => $hash{"stop"}, "events" => $events, "annotations" => $annotations_href
+				"stop" => $hash{"stop"}, "events" => $events, "annotations" => $annotations_href,
+				"alt" => $hash{"alt"}
 			}
 		};
+		$data_href->{$caller}->{"supp"}++;
 		$data_href->{$caller}->{$hash{"id"}} = $caller_record->{$hash{"id"}};
 		$data_href->{$caller}->{"caller_count"}++;
 	}
@@ -119,19 +119,16 @@ sub show_data_by_caller {
 			# while(my ($record_id,$regions) = each(%$records)) {
 			my @keys = sort(keys %$records);
 			foreach my $record_id (@keys) {
-				my $regions = $records->{$record_id};
 			
-				#show number of regions a caller has detected an event 
-				unless(ref($regions)) {
-					print "$record_id,$regions\n";
-					next;
-				}
-
+				#skip non-hash records
+				my $regions = $records->{$record_id};
+				next unless(ref($regions));
+				
 				print "caller: ", $regions->{"caller"},"\n";
 				print "id: ", $regions->{"id"},"\n";
 				print "start: ", $regions->{"start"},"\n";
 				print "stop: ", $regions->{"stop"},"\n";
-				
+								
 				my $events = $regions->{"events"};
 				print "GT: ", $events->{"gt"},"\n";
 				print "LN: ", $events->{"length"},"\n";
@@ -162,11 +159,14 @@ sub show_data_by_caller {
 					print "\toverlapped_Annotations: $overlapped_annotations_count\n"; 
 					print "\t\t$_\n" foreach(@$overlap_annotations);
 				}
+				
+				print "SUPP: ", $records->{"supp"},"\n";
+				print "Caller count: ", $records->{"caller_count"},"\n";
+				print "ALT: ", $regions->{"alt"},"\n";				
 				print "##########################\n";
 			}
 		}
 	}
-
 }
 			
 ##########################################################################################
@@ -262,7 +262,7 @@ sub show_data_by_event {
 		#####################
 		# show records (events) as an example only for one caller
 		#####################
-		if($event_id eq "DEL000SUR") {
+		if($event_id eq "DEL00201SUR") {
 
 			print "event id: $event_id\n";
 			print "start: ", $event_info->{"start"},"\n";
@@ -282,6 +282,9 @@ sub show_data_by_event {
 				}
 			}
 
+			print "SUPP: ", $event_info->{"supp"},"\n";
+			print "ALT: ", $event_info->{"alt"},"\n";
+
 			if(exists $event_info->{"annotations"}) {
 				my $annotations_ref = $event_info->{"annotations"};
 				print "Annotations:\n";
@@ -294,14 +297,6 @@ sub show_data_by_event {
 				print "\toverlapped_Annotations: $overlapped_annotations_count\n"; 
 				print "\t\t$_\n" foreach(@$overlap_annotations);
 			}
-			
-# 			my $annotations_ref = $event_info->{"annotations"};
-# 			print "annotations:\n";
-# 			print "\toverlapped_VCF: ", $annotations_ref->{"overlapped_VCF"},"\n";
-# 			print "\ttotal_Annotations: ", $annotations_ref->{"total_Annotations"},"\n";
-# 			print "\toverlapped_Annotations: \n"; 
-# 			my $overlap_annotations = $annotations_ref->{"overlapped_Annotations"};						
-# 			print "\t\t$_\n" foreach(@$overlap_annotations);
 		}
 	}
 }
