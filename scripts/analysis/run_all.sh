@@ -1,7 +1,7 @@
 #!/bin/bash
-perl stat.pl /home/ubuntu/adhroso/datasets/GIAB_H002_081716_anno.vcf /home/ubuntu/adhroso/datasets/caller_tech.map.txt giab
 
+# Command line usage for generating statistics for the test data
+# perl generate_statistics.pl <annotated_vcf> <table_mapping_callers_to_technology> <output_filename_prefix> 
 
-# older data sets
-# perl stat.pl /home/ubuntu/adhroso/datasets/RUN4.vcf /home/ubuntu/adhroso/datasets/caller_tech.map.txt run4
-# perl stat.pl /home/ubuntu/adhroso/datasets/GIAB_H002_081716.vcf /home/ubuntu/adhroso/datasets/caller_tech.map.txt giab
+# To generate statistics on the test data, unzip the vcf and then run:
+perl generate_statistics.pl ../../test_data/GIAB_H002_081716_anno.vcf ../../test_data/caller_tech.map.txt giab

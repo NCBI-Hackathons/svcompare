@@ -1,0 +1,16 @@
+HG002.TE_insertions.recover_filt_mod.vcf	illumina
+HG002.commonlaw.deletions.bilkentuniv.082815.vcf	illumina
+HG002.fermikit.sv.vcf	illumina
+HG002_ALLCHROM_hs37d5_novoalign_Ilmn150bp300X_FB_delgt19.vcf	illumina
+HG002_ALLCHROM_hs37d5_novoalign_Ilmn150bp300X_GATKHC_delgt19.vcf	illumina
+HG002_CNVnator_deletions.hs37d5.sort.vcf	illumina
+MetaSV_151207_variants.vcf	illumina
+hg002.Assemblytics_structural_variants.vcf	pacbio
+hg002_attempt1.1_MultibreakSV_mod.vcf	pacbio
+parliament.assembly.H002.vcf	pacbio
+parliament.pacbio.H002.vcf	pacbio
+trio2.Assemblytics_structural_variants.vcf	pacbio
+vcfBeta-GS000037263-ASM_delgt19.vcf	cg
+son_hap_refsplit20160129_1kb.vcf	bionano
+smrt-sv.dip_indel.vcf	pacbio
+PBHoney_15.8.24_HG002.tails_20.vcf	pacbio
