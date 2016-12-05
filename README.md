@@ -1,5 +1,6 @@
 # SVCompare
-Comparison and estimation of breakpoints for SVs accross different technologies and resources.
+Comparison and estimation of breakpoints for SVs across different technologies and resources.
+Summaries of SV annotations.
 
 **************************************
 ## Introduction:
@@ -9,8 +10,8 @@ This github represents a collection of the methods that our group developed to a
 The methods developed consists of:
 
 - SURVIVOR_ant: a comparison and annotate method for a given vcf file.
-- statistics.pl: provides statics of callsets in which an event is supported.
-- run_all: wrapper for statistics.pl
+- generate_statistics.pl: provides statics of callsets in which an event is supported.
+- run_all: wrapper for generate_statistics.pl
 
 ************************************
 ## Installation
@@ -26,6 +27,7 @@ svcompare tool can be in installed at the root system level or at the user local
 ### test_data: 
 - GIAB_H002_081716.vcf.zip: includes the merged calls of GIAB HG002 based on 16 call sets.
 - GIAB_H002_081716.vcf_anno.zip: The resulting file from SURVIVOR_ant based on the merged file of GIAB HG002.
+- caller_tech.map.txt: table linking callers and technologies to use in statistics generation.
     
 
 ************************************
