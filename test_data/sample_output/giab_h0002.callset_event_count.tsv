@@ -1,0 +1,17 @@
+CALLER	N_EVENTS
+vcfbeta-gs000037263-asm_delgt19.vcf	3753
+parliament.pacbio.h002.vcf	2703
+hg002_cnvnator_deletions.hs37d5.sort.vcf	11640
+hg002.commonlaw.deletions.bilkentuniv.082815.vcf	807
+son_hap_refsplit20160129_1kb.vcf	2377
+smrt-sv.dip_indel.vcf	14543
+pbhoney_15.8.24_hg002.tails_20.vcf	579
+hg002.fermikit.sv.vcf	5281
+parliament.assembly.h002.vcf	3417
+metasv_151207_variants.vcf	82046
+hg002.te_insertions.recover_filt_mod.vcf	113
+hg002_attempt1.1_multibreaksv_mod.vcf	24900
+hg002_allchrom_hs37d5_novoalign_ilmn150bp300x_fb_delgt19.vcf	8130
+hg002.assemblytics_structural_variants.vcf	11846
+trio2.assemblytics_structural_variants.vcf	10940
+hg002_allchrom_hs37d5_novoalign_ilmn150bp300x_gatkhc_delgt19.vcf	16097
